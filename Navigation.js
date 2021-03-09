@@ -19,6 +19,7 @@ import Favorite from './src/screens/favorite/Favorite';
 import Settings from './src/screens/settings/Settings';
 import Absent from './src/screens/forms/Absent';
 import History from './src/screens/history/History';
+import LeaveRequest from './src/screens/forms/LeaveRequest';
 
 const BAR_HEIGHT = UIHelper.isIphoneX() ? 78 : 58
 
@@ -89,7 +90,7 @@ const HomeRoot = ({ route }) => {
         >
             <Tab.Screen name="Home" component={Home}
                 options={{
-                    tabBarLabel: 'HOME',
+                    tabBarLabel: 'Home',
                     tabBarIcon: ({ color, focused }) => (
                         <Icon name={focused ? 'home' : 'home-outline'} size={25} color={color} />
                     ),
@@ -98,7 +99,7 @@ const HomeRoot = ({ route }) => {
             />
             <Tab.Screen name="Settings" component={Settings}
                 options={{
-                    tabBarLabel: 'SETTINGS',
+                    tabBarLabel: 'Settings',
                     tabBarIcon: ({ color, focused }) => (
                         <Icon name={focused ? 'cog' : 'cog-outline'} size={25} color={color} />
                     ),
@@ -130,7 +131,9 @@ const Main = ({ isLogin, setIsLogin }) => {
                 }}
                     initialParams={{ setIsLogin }} />
                 <Stack.Screen name="Absent" component={Absent}
-                    options={({ route }) => ({ title: route.params.name, headerTitleStyle: { fontFamily: fontsFamilys.bold } })} />
+                    options={({ route }) => ({ title: 'Form Absent', headerTitleStyle: { fontFamily: fontsFamilys.bold } })} />
+                <Stack.Screen name="LeaveRequest" component={LeaveRequest}
+                    options={({ route }) => ({ title: 'Form Leave Request', headerTitleStyle: { fontFamily: fontsFamilys.bold } })} />
                 <Stack.Screen name="History" component={History}
                     options={({ route }) => ({ title: 'History', headerTitleStyle: { fontFamily: fontsFamilys.bold } })} />
 

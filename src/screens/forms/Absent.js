@@ -23,7 +23,6 @@ const Absent = ({ navigation, route }) => {
     const { params } = route;
 
     useEffect(() => {
-        navigation.setOptions({ title: 'Form ' + toUcFirst(params.type) })
         getLocation();
         return () => {
             Geolocation.clearWatch(watchID);
@@ -61,32 +60,35 @@ const Absent = ({ navigation, route }) => {
         watchID();
     }
 
-    // useEffect(() => {
-    //     if ('latitude' in longlat) {
-    //         setIsLoading(true);
-    //         Geocoder.from(longlat.latitude, longlat.longitude)
-    //             .then(json => {
-    //                 var addressComponent = json.results[0].formatted_address;
-    //                 setAddress(addressComponent);
-    //                 setIsLoading(false);
-    //                 console.log('addressComponent', addressComponent, longlat.latitude, longlat.longitude);
-    //             })
-    //             .catch(error => {
-    //                 setIsLoading(false);
-    //                 setAddress('failed');
-    //                 console.warn(error)
-    //             });
-    //     }
-    // }, [longlat])
+    useEffect(() => {
+        if ('latitude' in longlat) {
+            setIsLoading(true);
+            Geocoder.from(longlat.latitude, longlat.longitude)
+                .then(json => {
+                    var addressComponent = json.results[0].formatted_address;
+                    setAddress(addressComponent);
+                    setIsLoading(false);
+                    console.log('addressComponent', addressComponent, longlat.latitude, longlat.longitude);
+                })
+                .catch(error => {
+                    setIsLoading(false);
+                    setAddress(null);
+                    console.warn(error)
+                });
+        }
+    }, [longlat])
 
     const onSubmit = async () => {
         try {
             setIsLoading(true);
 
             const params = {
-                photo: photo.replace('data:image/png;base64,', ''),
                 latitude: longlat.latitude,
                 longitude: longlat.longitude,
+                alamat : address,
+                status: 'hadir',
+                notes: null,
+                photo: photo.replace('data:image/png;base64,', ''),
             }
 
             if (typeof params.latitude == 'undefined' || params.longitude == null) {
@@ -132,7 +134,7 @@ const Absent = ({ navigation, route }) => {
                     fontFamily: fontsFamilys.bold,
                     color: colors.textReverse,
                 }}>Mencari alamat..</Text>
-            ) }
+            )}
         </View>
     );
 
@@ -246,38 +248,38 @@ const Absent = ({ navigation, route }) => {
                         }}
                     </RNCamera>
                 ) : (
-                        <ScrollView
-                            style={{ width: "100%", flex: 1 }}
-                            // contentContainerStyle={{ padding: 16 }}
-                            showsVerticalScrollIndicator={false}>
-                            <Image source={{ uri: photo }} style={{ height: Dimensions.get('window').height / 2, width: '100%', resizeMode: 'contain', borderRadius: 50, marginTop: 20 }} />
+                    <ScrollView
+                        style={{ width: "100%", flex: 1 }}
+                        // contentContainerStyle={{ padding: 16 }}
+                        showsVerticalScrollIndicator={false}>
+                        <Image source={{ uri: photo }} style={{ height: Dimensions.get('window').height / 2, width: '100%', resizeMode: 'contain', borderRadius: 50, marginTop: 20 }} />
 
-                            <TouchableOpacity
-                                style={{
-                                    marginTop: 85,
-                                    paddingVertical: 16,
-                                    // paddingHorizontal: 15,
-                                    borderColor: colors.background,
-                                    // borderWidth: 1,
-                                    marginHorizontal: 16,
-                                    marginBottom: 20,
-                                    backgroundColor: colors.primary,
-                                    borderRadius: 5,
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                }}
-                                onPress={() => {
-                                    onSubmit();
-                                }}
-                            >
-                                <Text style={{
-                                    color: colors.textReverse,
-                                    fontFamily: fontsFamilys.bold,
-                                    fontSize: 18
-                                }}>SUBMIT</Text>
-                            </TouchableOpacity>
-                        </ScrollView>
-                    )}
+                        <TouchableOpacity
+                            style={{
+                                marginTop: 85,
+                                paddingVertical: 16,
+                                // paddingHorizontal: 15,
+                                borderColor: colors.background,
+                                // borderWidth: 1,
+                                marginHorizontal: 16,
+                                marginBottom: 20,
+                                backgroundColor: colors.primary,
+                                borderRadius: 5,
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}
+                            onPress={() => {
+                                onSubmit();
+                            }}
+                        >
+                            <Text style={{
+                                color: colors.textReverse,
+                                fontFamily: fontsFamilys.bold,
+                                fontSize: 18
+                            }}>SUBMIT</Text>
+                        </TouchableOpacity>
+                    </ScrollView>
+                )}
             </View>
             {isLoading &&
                 <Loading />

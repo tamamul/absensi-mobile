@@ -24,6 +24,30 @@ const Home = ({ navigation, route }) => {
 
   const props = route.params;
 
+  const listButton = [
+    {
+      title: 'Absent',
+      icon: 'account-check-outline',
+      onPress: () => {
+        navigation.push('Absent')
+      }
+    },
+    {
+      title: 'Leave Request',
+      icon: 'account-alert-outline',
+      onPress: () => {
+        navigation.push('LeaveRequest')
+      }
+    },
+    {
+      title: 'History Absent',
+      icon: 'book-outline',
+      onPress: () => {
+        navigation.push('History')
+      }
+    }
+  ]
+
   useEffect(() => {
     checkAccount();
     permissionCheck();
@@ -90,6 +114,48 @@ const Home = ({ navigation, route }) => {
     }
   }
 
+  const ButtonHome = ({ title, icon, onPress }) => {
+    return (<TouchableOpacity
+      style={{
+        flex: 1,
+        flexDirection: 'row',
+        borderColor: colors.background,
+        // borderWidth: 1,
+        paddingHorizontal: 16,
+        paddingVertical: 16,
+        marginVertical: 5,
+        backgroundColor: colors.primary,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'space-between'
+      }}
+      onPress={() => {
+        onPress();
+      }}
+    >
+      <View style={{
+        flexDirection: 'row', alignItems: 'center',
+      }}>
+        <Icon
+          name={icon}
+          size={30}
+          color={colors.textReverse}
+        />
+        <Text style={{
+          fontSize: 16,
+          fontFamily: fontsFamilys.bold,
+          color: colors.textReverse,
+          paddingHorizontal: 16
+        }}>{title}</Text>
+      </View>
+      <Icon
+        name="chevron-right"
+        size={30}
+        color={colors.textReverse}
+      />
+    </TouchableOpacity>)
+  }
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={styles.container}>
@@ -124,61 +190,6 @@ const Home = ({ navigation, route }) => {
               fontFamily: fontsFamilys.regular,
             }}>{user.nis}</Text>
 
-            {/* <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', flex: 1, width: Dimensions.get('window').width, marginTop: 20 }}>
-              <View style={{ alignItems: 'center', marginHorizontal: 5 }}>
-                <Text style={{
-                  color: colors.text,
-                  fontSize: 18,
-                  fontFamily: fontsFamilys.semiBold,
-                  // fontWeight:'bold'
-                }}>{myPoin}</Text>
-                <Text style={{
-                  color: colors.text,
-                  fontSize: 14,
-                  fontFamily: fontsFamilys.regular,
-                }}>MY POINTS</Text>
-              </View>
-              <View style={{ alignItems: 'center', marginHorizontal: 5 }}>
-                <Text style={{
-                  color: colors.text,
-                  fontSize: 18,
-                  fontFamily: fontsFamilys.semiBold,
-                  // fontWeight:'bold'
-                }}>{user?.edge_owner_to_timeline_media?.count}</Text>
-                <Text style={{
-                  color: colors.text,
-                  fontSize: 14,
-                  fontFamily: fontsFamilys.regular,
-                }}>POSTS</Text>
-              </View>
-              <View style={{ alignItems: 'center', marginHorizontal: 5 }}>
-                <Text style={{
-                  color: colors.text,
-                  fontSize: 18,
-                  fontFamily: fontsFamilys.semiBold,
-                  // fontWeight:'bold'
-                }}>{user?.edge_follow?.count}</Text>
-                <Text style={{
-                  color: colors.text,
-                  fontSize: 14,
-                  fontFamily: fontsFamilys.regular,
-                }}>FOLLOWING</Text>
-              </View>
-              <View style={{ alignItems: 'center', marginHorizontal: 5 }}>
-                <Text style={{
-                  color: colors.text,
-                  fontSize: 18,
-                  fontFamily: fontsFamilys.semiBold,
-                  // fontWeight:'bold'
-                }}>{user?.edge_followed_by?.count}</Text>
-                <Text style={{
-                  color: colors.text,
-                  fontSize: 14,
-                  fontFamily: fontsFamilys.regular,
-                }}>FOLLOWERS</Text>
-              </View>
-            </View> */}
-
             <View style={{
               padding: 16,
               alignSelf: 'stretch',
@@ -191,89 +202,11 @@ const Home = ({ navigation, route }) => {
                 fontSize: 18,
                 fontFamily: fontsFamilys.semiBold,
                 alignSelf: 'flex-start',
-              }}>FEATURE</Text>
+              }}>Feature</Text>
+              {
+                listButton.map(dt => <ButtonHome title={dt.title} onPress={dt.onPress} icon={dt.icon}/>)
+              }
 
-              <TouchableOpacity
-                style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                  borderColor: colors.background,
-                  // borderWidth: 1,
-                  paddingHorizontal: 16,
-                  paddingVertical: 16,
-                  marginVertical: 5,
-                  backgroundColor: colors.primary,
-                  borderRadius: 5,
-                  alignItems: 'center',
-                  justifyContent: 'space-between'
-                }}
-                onPress={() => {
-                  navigation.push('Absent', {
-                    type: 'Absent',
-                    checkAccount
-                  });
-                }}
-              >
-                <View style={{
-                  flexDirection: 'row', alignItems: 'center',
-                }}>
-                  <Icon
-                    name="account-cash-outline"
-                    size={30}
-                    color={colors.textReverse}
-                  />
-                  <Text style={{
-                    fontSize: 16,
-                    fontFamily: fontsFamilys.bold,
-                    color: colors.textReverse,
-                    paddingHorizontal: 16
-                  }}>ABSENT</Text>
-                </View>
-                <Icon
-                  name="chevron-right"
-                  size={30}
-                  color={colors.textReverse}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                  borderColor: colors.background,
-                  // borderWidth: 1,
-                  paddingHorizontal: 16,
-                  paddingVertical: 16,
-                  marginVertical: 5,
-                  backgroundColor: colors.primary,
-                  borderRadius: 5,
-                  alignItems: 'center',
-                  justifyContent: 'space-between'
-                }}
-                onPress={() => {
-                  navigation.push('History');
-                }}
-              >
-                <View style={{
-                  flexDirection: 'row', alignItems: 'center',
-                }}>
-                  <Icon
-                    name="book-outline"
-                    size={30}
-                    color={colors.textReverse}
-                  />
-                  <Text style={{
-                    fontSize: 16,
-                    fontFamily: fontsFamilys.bold,
-                    color: colors.textReverse,
-                    paddingHorizontal: 16
-                  }}>HISTORY ABSENT</Text>
-                </View>
-                <Icon
-                  name="chevron-right"
-                  size={30}
-                  color={colors.textReverse}
-                />
-              </TouchableOpacity>
 
             </View>
           </ScrollView>

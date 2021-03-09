@@ -94,7 +94,7 @@ const Settings = ({ navigation, route }) => {
               fontFamily: fontsFamilys.bold,
               color: colors.textReverse,
               marginTop: 10
-            }}>LOGOUT</Text>
+            }}>Logout</Text>
           </TouchableOpacity>
         </ScrollView>
         </ImageBackground>
