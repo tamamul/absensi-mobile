@@ -13,13 +13,13 @@ import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 
 
-// Geocoder.init("AIzaSyD-fQ4pEHlSzYmAwLIWM7D5jj7hbg5SKYk");
+Geocoder.init("AIzaSyD-fQ4pEHlSzYmAwLIWM7D5jj7hbg5SKYk");
 
 const Absent = ({ navigation, route }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [photo, setPhoto] = useState('');
     const [longlat, setLonglat] = useState({});
-    const [address, setAddress] = useState('');
+    const [address, setAddress] = useState(null);
     const { params } = route;
 
     useEffect(() => {
